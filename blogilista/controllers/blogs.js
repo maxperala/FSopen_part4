@@ -4,7 +4,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 const jwtCheck = async (token) => {
-  console.log("JWT CHECK RUNNING...");
+  //console.log("JWT CHECK RUNNING...");
   const decodedToken = jwt.verify(token, process.env.SECRET);
 
   const user = await User.findById(decodedToken.id);
@@ -23,15 +23,15 @@ blogRouter.post("/", async (request, response) => {
     return response.status(401).json({ error: "Unauthorized" });
   const blog = new Blog(request.body);
 
-  console.log(request.body);
+  //console.log(request.body);
 
   const user = await jwtCheck(request.token);
   // console.log("USER AFTER RETURN: ", user);
 
   if (user) {
     blog.user = user._id;
-    console.log("USER ID", user.id);
-    console.log("USER _ID: ", user._id);
+    //console.log("USER ID", user.id);
+    //console.log("USER _ID: ", user._id);
     const result = await blog.save();
     user.blogs = user.blogs.concat(blog.id);
     await user.save();
@@ -51,8 +51,8 @@ blogRouter.delete("/:id", async (request, res) => {
     username: 1,
     name: 1,
   });
-  console.log("blogToDELETE:", blogToDelete);
-  console.log("USER TO COMPARE:", user);
+  // console.log("blogToDELETE:", blogToDelete);
+  // console.log("USER TO COMPARE:", user);
   if (blogToDelete.user._id.toString() === user._id.toString()) {
     result = await blogToDelete.remove();
     res.json(result);

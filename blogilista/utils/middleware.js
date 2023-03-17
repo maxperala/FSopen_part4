@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const ErrorHandler = (error, request, response, next) => {
-  console.log("ERROR HANDLER RUNNING");
+  // console.log("ERROR HANDLER RUNNING");
   if (error.name === "ValidationError") {
     return response.status(400).json({
       error: "Username in use or less than 3 characters long",
@@ -14,7 +14,7 @@ const ErrorHandler = (error, request, response, next) => {
 
 const TokenExtractor = (request, response, next) => {
   const authorizz = request.get("authorization");
-  console.log("TOKEN EXTRACTOR: ", authorizz);
+  //console.log("TOKEN EXTRACTOR: ", authorizz);
   if (authorizz && authorizz.startsWith("Bearer ")) {
     request.token = authorizz.replace("Bearer ", "");
   }

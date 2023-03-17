@@ -72,7 +72,7 @@ describe("Tests for login and token stuff", () => {
   });
   test("Removal of blog with wrong TOKEN", async () => {
     const blogs = await Blog.find({});
-    console.log("BLOGS", blogs);
+    // console.log("BLOGS", blogs);
     const blogToDeleteID = blogs[0]._id;
     const fakeToken = test_token.replace("w", "o");
 
@@ -81,14 +81,14 @@ describe("Tests for login and token stuff", () => {
     const res = await api
       .delete(`/api/blogs/${blogToDeleteID}`)
       .set("authorization", `Bearer ${fakeToken}`);
-    console.log("ERROR:", res.body.error);
+    // console.log("ERROR:", res.body.error);
     expect(res.body.error).toBeTruthy();
   });
   test("Removal of blog with right TOKEN", async () => {
     const blogs = await Blog.find({});
-    console.log("BLOGS", blogs);
+    // console.log("BLOGS", blogs);
     const blogToDeleteID = blogs[0]._id;
-    console.log("BLOG TO DELETE", blogToDeleteID);
+    // console.log("BLOG TO DELETE", blogToDeleteID);
     // const string = `/api/blogs/${blogToDeleteID}`;
     // console.log(string);
     const res = await api
@@ -96,6 +96,12 @@ describe("Tests for login and token stuff", () => {
       .set("authorization", `Bearer ${test_token}`);
     //console.log("resPONSE:", res);
     expect(res.body.id.toString()).toBe(blogs[0]._id.toString());
+  });
+  test("No token = 401 code", async () => {
+    const payload = initial[0];
+    const response = await api.post("/api/blogs").send(payload);
+    // console.log(response.status);
+    expect(response.status).toBe(401);
   });
 });
 
@@ -134,7 +140,7 @@ describe("replacement tests for broken ones", () => {
       .set("authorization", `Bearer ${test_token}`);
     //console.log("RESPONSE BODY: ", response);
     const blog = await Blog.findById(response.body.id);
-    console.log("BLOG", blog);
+    // console.log("BLOG", blog);
     expect(blog.likes).toBe(0);
   });
   test("adding blog without required fields", async () => {
