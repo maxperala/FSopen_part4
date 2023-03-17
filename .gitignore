@@ -1,2 +1,4 @@
-node_modules
+blogilista/node_modules
+blogilista/.env
 .env
+node_modules
